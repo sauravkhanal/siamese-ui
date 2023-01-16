@@ -84,6 +84,11 @@ def test():
     dir1 = img1.split('/')
     dir2 = img2.split('/')
 
+    '''so here we need to import pretrained model and throw error popup if 
+    if pretrained model is not found. For that task should i use  a_vs_other
+    to train the model or a_vs_b to verify a as well as b ? that is to be
+    found. so .....
+    '''
     print(img1)
     # data = make_test_dataset(img1,img2)
 
