@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import Button,Label
+from tkinter import Button,Label,Entry
 #from tkinter import ttk
 from tkinter import filedialog
 #import sqlite3
@@ -9,8 +9,9 @@ from tkinter import filedialog
 from preprocessing import preprocess_single_image
 from extract import extract_signature_from_image
 from resize import resize_image
-from siamese_in_py import train_model, make_train_dataset
-
+from siamese_in_py import train_model, make_train_dataset,predict
+from chequescan import extract_data_from_cheque
+import os
 
 window = tk.Tk()
 window.title("Signature Verification System")
@@ -45,9 +46,9 @@ def train():
     root = tk.Tk()
     root.withdraw()
     dirname0 = filedialog.askdirectory(
-        parent=root, initialdir="A:/preprocessing/sathi_signatures/test", title='Please select a directory for class 0.')
+        parent=root, initialdir="A:/preprocessing/sathi_signatures/train", title='Please select a directory for class 0.')
     dirname1 = filedialog.askdirectory(
-        parent=root, initialdir="A:/preprocessing/sathi_signatures/test", title='Please select a directory for class 1.')
+        parent=root, initialdir="A:/preprocessing/sathi_signatures/train", title='Please select a directory for class 1.')
 
     dir1 = dirname0.split('/')
     dir2 = dirname1.split('/')
@@ -72,21 +73,43 @@ def train():
    
 
 def test():
+
+    # var = tk.IntVar()
+
     img1 = filedialog.askopenfilename(initialdir="A:/preprocessing/sathi_signatures/test",title="Please select first image to test")
-    img2 = filedialog.askopenfilename(initialdir="A:/preprocessing/sathi_signatures/test",title="Please select second image to test")
+    #img2 = filedialog.askopenfilename(initialdir="A:/preprocessing/sathi_signatures/test",title="Please select second image to test")
+    # Label(text="Enter Roll_no").pack()
+    # entry = Entry(width=30).pack()
+    # button = tk.Button(text="Enter", command=lambda: var.set(1))
+    # button.pack()
+    # button.wait_variable(var)
+    # roll = entry.get()
+    roll = str(49)
+
+    path = os.path.join("A:/preprocessing/sathi_signatures/train",roll)
+    lis = os.listdir(path)
+    path = os.path.join(path,lis[1])
+
+    model_path = f"A:/pj/saved_model/{roll}vs99.h5"
     
-    dir1 = img1.split('/')
-    dir2 = img2.split('/')
+    out = predict(model_path,path,img1)
 
     '''so here we need to import pretrained model and throw error popup if 
     if pretrained model is not found. For that task should i use  a_vs_other
     to train the model or a_vs_b to verify a as well as b ? that is to be
     found. so .....
     '''
-    print(img1)
+    Label(text=f'Similarity = {out}').pack()
     # data = make_test_dataset(img1,img2)
 
     # predict()
+
+def scan_cheque():
+    cheque_path = filedialog.askopenfilename(initialdir="A:/preprocessing",
+                                             title = "Select scanned cheque")
+    Label(text=cheque_path).pack()
+    extract_data_from_cheque(cheque_path)
+    Label(text = 'extraction complete').pack()
 
 # def prt():
 #     x_dir = directory0()
@@ -161,11 +184,11 @@ button3 =Button(
     height=2,
     bg="red",
     fg="yellow",
-    # image=photo
-)
+    command= scan_cheque
+    )
 
 button4 = tk.Button(
-    text="Check Signature",
+    text="Test Signature",
     width=15,
     height=2,
     bg="grey",
@@ -177,6 +200,11 @@ button1.pack(padx=0, pady=5)
 # button2.pack(padx=0, pady=5)
 button3.pack(padx=0, pady=5)
 button4.pack(padx=0, pady=5)
-Button(text= 'Quit', command=window.quit).pack()
+Button(text= 'Quit',
+        width = 15,
+        height = 2,
+        bg='white',
+        command=window.quit
+        ).pack()
 
 window.mainloop()
