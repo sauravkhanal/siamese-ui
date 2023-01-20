@@ -93,7 +93,7 @@ def train_model(dataset : list, label:list):
     model.fit(x=[ data_pairs[:, 1, :, :],data_pairs[:, 0, :, :]],
           y=label_pairs,
           validation_split = 0.2,
-          epochs=1,
+          epochs=3,
           batch_size=32,
           callbacks=[EarlyStopping(patience=2)],
          )
@@ -120,10 +120,12 @@ def make_test_dataset(file_path1:str, file_path2:str)->list:
     return dataset
 
 
-def predict(model,image_A:str, image_B:str)->int:#returns similarity in %
+def predict(model_path,image_A:str, image_B:str)->int:#returns similarity in %
     
     data  = make_test_dataset(image_A, image_B)
     data = np.array(data)
+
+    model = load_model(model_path)
 
     prediction = model.predict([data[0].reshape((1, SIZE,SIZE)), 
                data[1].reshape((1, SIZE,SIZE))])
