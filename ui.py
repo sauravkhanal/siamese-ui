@@ -1,37 +1,31 @@
 import tkinter as tk
-from tkinter import *
-from tkinter import ttk
+from tkinter import Button,Label
+#from tkinter import ttk
 from tkinter import filedialog
-import sqlite3
+#import sqlite3
 from tkinter import filedialog
-from PIL import ImageTk, Image
-import sqlite3 as db
-from img_preprocess import image_crop
-from img_preprocess import *
-from siamese_in_py import*
+#from PIL import ImageTk, Image
+#import sqlite3 as db
+from preprocessing import preprocess_single_image
+from extract import extract_signature_from_image
+from resize import resize_image
+from siamese_in_py import train_model, make_train_dataset
 
 
 window = tk.Tk()
 window.title("Signature Verification System")
 # greeting = tk.Label(text="Hello, Welcome to our Signature Verification System. ")
 # greeting.pack()
-window.geometry("600x500")
 
 
-def myButton0():
-    def openfilename():
-        filename = filedialog.askopenfilename(
-            title='Import image to crop and extract')
-        return filename
+def extract_signature(): #extract and preprocess as well
 
-    root0 = Tk()
-    root0.title("Image Loader")
-    root0.geometry("550x300")
-    root0.resizable(width=True, height=True)
+    filename = filedialog.askopenfilename(title='Select image to extract')
+    Label(text=filename).pack()
 
-    btn0 = Button(root0, text='open image', command=image_crop).grid(
-        row=1, columnspan=4)
-    root0.mainloop()
+    extract_signature_from_image(filename, (300,300),15)
+    Label(text = 'extraction completed').pack()
+
 
 
 # def display_text():
@@ -134,15 +128,15 @@ def test():
 
 
 # photo = tk.PhotoImage(file=r"E:/MINOR PROJECT/Signature/add.png")
-button0 = tk.Button(
-    text="Crop and Extract",
+button0 =Button(
+    text="Extract Signature",
     width=15,
     height=2,
     bg="grey",
     fg="black",
-    command=myButton0
+    command=extract_signature
 )
-button1 = tk.Button(
+button1 =Button(
     text="Train Model",
     width=15,
     height=2,
@@ -161,7 +155,7 @@ button1 = tk.Button(
 #     # command=myButton2
 # )
 
-button3 = tk.Button(
+button3 =Button(
     text="Scan Cheque",
     width=15,
     height=2,
