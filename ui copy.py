@@ -16,10 +16,12 @@ from customtkinter import filedialog
 from customtkinter import CTkButton as Button
 from customtkinter import CTkLabel as Label
 import customtkinter
+from tkinter import messagebox
+import tkinter
 
-customtkinter.set_appearance_mode("light")
-customtkinter.set_default_color_theme("dark-blue")
-customtkinter.set_widget_scaling(3)
+customtkinter.set_appearance_mode("dark")
+customtkinter.set_default_color_theme("green")
+customtkinter.set_widget_scaling(2)
 #customtkinter.set_window_scaling(125)
 window = customtkinter.CTk()
 window.geometry('500x500')
@@ -34,7 +36,7 @@ def extract_signature(): #extract and preprocess as well
     Label(window,text=filename).pack()
 
     extract_signature_from_image(filename, (300,300),15)
-    Label(window,text = 'extraction completed').pack()
+    Label(window,text = customtkinter.messagebox()).pack()
 
 
 
@@ -79,7 +81,9 @@ def train():
     # tk.Label(window,text= f"Training completed\n Model saved at: {save_path}").pack()
     # c:/saved model ma save bhairachha
     model.save(f'A:/pj/saved_model/{dir1[-1]}vs{dir2[-1]}.h5')
-    Label(window,text=f'Training completed, \nModel saved at: A:/pj/saved_model/{dir1[-1]}vs{dir2[-1]}.h5').pack()
+    
+    messagebox.showinfo('Training info',f'Training completed, \nModel saved at: A:/pj/saved_model/{dir1[-1]}vs{dir2[-1]}.h5')
+    #Label(window,text=f'Training completed, \nModel saved at: A:/pj/saved_model/{dir1[-1]}vs{dir2[-1]}.h5').pack()
    
 
 def test():
@@ -109,17 +113,17 @@ def test():
     to train the model or a_vs_b to verify a as well as b ? that is to be
     found. so .....
     '''
-    Label(window,text=f'Similarity = {out}').pack()
-    # data = make_test_dataset(img1,img2)
+    messagebox.showinfo('info',f'Similarity = {out}')
 
-    # predict()
+
+
 
 def scan_cheque():
     cheque_path = filedialog.askopenfilename(initialdir="A:/preprocessing",
                                              title = "Select scanned cheque")
     Label(window,text=cheque_path).pack()
     extract_data_from_cheque(cheque_path)
-    Label(window,text = 'extraction complete').pack()
+    messagebox.showinfo('','extraction complete')
 
 # def prt():
 #     x_dir = directory0()
@@ -176,15 +180,6 @@ button1 =Button(window,
     command=train
 )
 
-# button2 = tk.Button(
-#     text="Train The Model",
-#     width=15,
-#     height=2,
-#     bg="green",
-#     fg="yellow"
-#     # image=photo,
-#     # command=myButton2
-# )
 
 button3 =Button(window,
     text="Scan Cheque",
@@ -201,6 +196,8 @@ button4 = Button(window,
  
     command = test
 )
+
+
 button0.pack(padx=0, pady=5)
 button1.pack(padx=0, pady=5)
 # button2.pack(padx=0, pady=5)
