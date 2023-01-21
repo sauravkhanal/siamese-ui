@@ -200,7 +200,6 @@ button4 = Button(window,
 
 button0.pack(padx=0, pady=5)
 button1.pack(padx=0, pady=5)
-# button2.pack(padx=0, pady=5)
 button3.pack(padx=0, pady=5)
 button4.pack(padx=0, pady=5)
 Button(window,
