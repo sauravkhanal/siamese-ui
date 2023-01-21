@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import Button,Label,Entry
+from tkinter import Button,Label,Entry,messagebox
 #from tkinter import ttk
 from tkinter import filedialog
 #import sqlite3
@@ -99,10 +99,9 @@ def test():
     to train the model or a_vs_b to verify a as well as b ? that is to be
     found. so .....
     '''
-    Label(text=f'Similarity = {out}').pack()
-    # data = make_test_dataset(img1,img2)
+    Label(text=messagebox.showinfo('Testing Info',f'Similarity = {out}')).pack()
+    #Label(text=f'Similarity = {out}').pack()
 
-    # predict()
 
 def scan_cheque():
     cheque_path = filedialog.askopenfilename(initialdir="A:/preprocessing",
@@ -195,6 +194,8 @@ button4 = tk.Button(
     fg="black",
     command = test
 )
+
+scr = tk.Scrollbar(window).pack( side = 'right', fill = 'y' )
 button0.pack(padx=0, pady=5)
 button1.pack(padx=0, pady=5)
 # button2.pack(padx=0, pady=5)
