@@ -28,20 +28,6 @@ def extract_signature(): #extract and preprocess as well
     Label(text = 'extraction completed').pack()
 
 
-
-# def display_text():
-#     global entry
-#     string = tk.entry.get()
-#     tk.label.configure(text=string)
-
-
-# def directory():
-#     root = tk.Tk()
-#     root.withdraw()
-#     dirname = filedialog.askdirectory(
-#         parent=root, initialdir="/", title='Please select a directory')
-
-
 def train():
     root = tk.Tk()
     root.withdraw()
